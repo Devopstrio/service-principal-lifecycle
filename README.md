@@ -2,9 +2,9 @@
 
 <img src="https://raw.githubusercontent.com/Devopstrio/.github/main/assets/Browser_logo.png" height="150" alt="Identity Logo" />
 
-<h1>Service Principal Lifecycle Management Platform</h1>
+<h1>Service Principal Lifecycle Platform</h1>
 
-<p><strong>The Strategic Governance Control Plane for Provisioning, Rotating, and Retiring Cloud Identities at Enterprise Scale</strong></p>
+<p><strong>The Strategic Governance Control Plane for Provisioning, Rotating, and Retiring Cloud Identities at Enterprise Scale.</strong></p>
 
 [![Standard: IAM Governance](https://img.shields.io/badge/Standard-IAM--Governance-blue.svg?style=for-the-badge&labelColor=000000)]()
 [![Status: Production--Ready](https://img.shields.io/badge/Status-Production--Ready-emerald.svg?style=for-the-badge&labelColor=000000)]()
@@ -13,7 +13,7 @@
 <br/>
 
 > **"Identity is the new perimeter."** 
-> Service Principal Lifecycle (Identity-Ops) is an enterprise-grade platform designed to provide a secure, measurable, and highly automated foundation for global service identity governance. It orchestrates the complex lifecycle of cloud service principals—from standardized provisioning and least-privilege assignment to automated credential rotation and risk-based decommissioning. By providing a centralized identity hub with real-time risk scoring, rotation scheduling, and immutable audit logs, it enables organizations to eliminate identity sprawl, reduce the risk of credential exposure, and ensure consistent architectural excellence across every tier of the global infrastructure.
+> **Service Principal Lifecycle (Identity-Ops)** is an institutional-grade platform designed to provide a secure, measurable, and highly automated foundation for global service identity governance. It orchestrates the entire lifecycle—from standardized provisioning and least-privilege assignment to automated credential rotation and risk-based decommissioning.
 
 </div>
 
@@ -21,418 +21,265 @@
 
 ## 🏛️ Executive Summary
 
-Modern cloud architectures rely on thousands of non-human identities. Organizations fail to maintain security not because of a lack of credentials, but because of fragmented identity lifecycles, unmanaged credential rotation, and an inability to track where and how service principals are being used across the enterprise.
+Modern cloud architectures rely on thousands of non-human identities. Organizations often fail to maintain security not because of a lack of credentials, but because of fragmented identity lifecycles and unmanaged credential rotation that creates significant security blind spots.
 
-This platform provides the **Identity Governance Plane**. It implements a complete **Identity Intelligence Framework**—from automated principal provisioning and credential management to a specialized risk scoring engine and decommissioning workflow. By operationalizing service principal lifecycles, it ensures that your identities are not just created, but continuously secured, rotated for compliance, and governed with strategic precision.
+This platform provides the **Identity Governance Plane**. It implements a complete **Identity Intelligence Framework**, enabling IAM and Security teams to manage service principals as a first-class citizen. By automating the rotation of secrets and certificates and enforcing least-privilege boundaries, we ensure that every workload identity is continuously secured, governed, and ready for institutional audits with strategic precision.
+
+---
+
+## 📐 Architecture Storytelling: Principal Reference Models
+
+### 1. Principal Architecture: Global Service Principal Lifecycle & Governance Plane
+This diagram illustrates the end-to-end flow from initial identity request and automated provisioning to cryptographic secret rotation and forensic auditing.
+
+```mermaid
+graph LR
+    %% Subgraph Definitions
+    subgraph IdentityRequest["Identity Request Hub"]
+        direction TB
+        Portal["Self-Service Identity Portal"]
+        ApiRequest["API-Driven Identity Request"]
+        Approval["Manager / Security Approval"]
+    end
+
+    subgraph GovernanceEngine["Identity Intelligence Hub"]
+        direction TB
+        API["FastAPI Governance Gateway"]
+        RBAC["RBAC & Permission Manager"]
+        Risk["Identity Risk Scorer"]
+        Inventory["Principal Metadata Inventory"]
+    end
+
+    subgraph LifecycleAutomation["Lifecycle Automation Engine"]
+        direction TB
+        Provisioner["Standardized SP Provisioner"]
+        Rotator["Automated Credential Rotator"]
+        Decom["Decommissioning Workflow"]
+    end
+
+    subgraph IdentityPlane["Enterprise Identity Plane"]
+        direction TB
+        Entra["Microsoft Entra ID / Azure AD"]
+        AWS["AWS IAM / Identity Center"]
+        Vault["Secret Vault (HashiCorp/KMS)"]
+    end
+
+    subgraph Operations["Governance & Forensic Audit"]
+        direction TB
+        Dash["Identity Posture Dashboard"]
+        Compliance["Compliance & Expiry Auditor"]
+        Forensics["Identity Metadata Lake"]
+    end
+
+    %% Flow Arrows
+    IdentityRequest -->|1. Request Identity| API
+    API -->|2. Validate Policy| RBAC
+    RBAC -->|3. Approve Permissions| Provisioner
+    Provisioner -->|4. Create Service Principal| IdentityPlane
+    
+    IdentityPlane -->|5. Sync Metadata| Inventory
+    Inventory -->|6. Calculate Risk| Risk
+    Risk -->|7. Trigger Rotation| Rotator
+    Rotator -->|8. Update Secrets| IdentityPlane
+    
+    IdentityPlane -->|9. Audit Logs| Dash
+    Dash -->|10. Monitor Expiry| Compliance
+    Compliance -->|11. Trigger Cleanup| Decom
+    Decom -->|12. Retire Identity| IdentityPlane
+    API -->|Forensic Data| Forensics
+
+    %% Styling
+    classDef request fill:#f5f5f5,stroke:#616161,stroke-width:2px;
+    classDef intel fill:#ede7f6,stroke:#311b92,stroke-width:2px;
+    classDef automation fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px;
+    classDef identity fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px;
+    classDef ops fill:#fce4ec,stroke:#880e4f,stroke-width:2px;
+
+    class IdentityRequest request;
+    class GovernanceEngine intel;
+    class LifecycleAutomation automation;
+    class IdentityPlane identity;
+    class Operations ops;
+```
+
+### 2. The Identity Lifecycle Management Flow
+The continuous path of a service principal from birth to secure decommissioning.
+
+```mermaid
+graph LR
+    Request["Request & Approve"] --> Provision["Automated Provision"]
+    Provision --> Rotate["Continuous Secret Rotation"]
+    Rotate --> Review["Periodic Access Review"]
+    Review --> Retire["Secure Decommissioning"]
+```
+
+### 3. Automated Credential Rotation Engine
+Visualizing the high-integrity process for rotating secrets without application downtime.
+
+```mermaid
+graph TD
+    Trigger["Rotation Schedule / Event"] --> Gen["Generate New Secret / Cert"]
+    Gen --> Update["Update Identity Store (Entra ID)"]
+    Update --> Sync["Sync to Vault / KeyStore"]
+    Sync --> Verify["Verify App Connectivity"]
+    Verify --> Revoke["Revoke Old Credential"]
+```
+
+### 4. Certificate-Based Authentication (CBA) Topology
+Implementing high-security workload identities using private CAs and certificate mapping.
+
+```mermaid
+graph LR
+    CA["Private Certificate Authority"] --> Issue["Issue Workload Certificate"]
+    Issue --> Map["Map Cert to Service Principal"]
+    Map --> Auth["Authenticate via MTLS"]
+```
+
+### 5. Multi-Tenant Identity Isolation Model
+Standardizing how service principals are segregated across complex business unit structures.
+
+```mermaid
+graph TD
+    Hub["Enterprise Identity Hub"] --> BU1["Business Unit: Finance"]
+    Hub --> BU2["Business Unit: Engineering"]
+    BU1 --> SP1["SP: Invoice_Processor"]
+    BU2 --> SP2["SP: Deployment_Worker"]
+```
+
+### 6. Permission & RBAC Governance Loop
+The strategic process of rightsizing workload permissions to achieve Zero-Trust.
+
+```mermaid
+graph LR
+    Scan["Permission Usage Scan"] --> Analyze["Identify Over-Privilege"]
+    Analyze --> Rightsizing["Generate Lower-Privilege Role"]
+    Rightsizing --> Apply["Automated Policy Update"]
+```
+
+### 7. Service Principal Inventory & Metadata Hub
+Managing the "who, what, and why" for every automated identity in the cloud.
+
+```mermaid
+graph LR
+    Id["Principal ID"] --- Meta["Metadata: Owner/App/Expiry"]
+    Meta --- Tag["Tags: Cost_Center / Env"]
+    Tag --- Audit["Audit: Last_Used / Created"]
+```
+
+### 8. Workload Identity Security Guardrails
+Enforcing conditional access and location-based policies for non-human identities.
+
+```mermaid
+graph LR
+    Login["Login Attempt"] --> Policy{"Security Guardrail"}
+    Policy -->|Trusted Source| Access["Identity Authenticated"]
+    Policy -->|Unknown Source| Block["Access Denied & Alert"]
+```
+
+### 9. Compliance & Expiry Monitoring Hub
+Proactive alerting and automated pruning of stale or expiring workload identities.
+
+```mermaid
+graph TD
+    Monitor["Compliance Monitor"] --> Expiring["Secret/Cert Expiry Alert"]
+    Monitor --> Stale["Stale Identity (No usage > 90d)"]
+    Expiring --> Notify["Notify Owner"]
+    Stale --> Prune["Auto-Decommission"]
+```
+
+### 10. IaC Identity Deployment: Terraform for Identities
+Version-controlling app registrations and service principals as first-class infrastructure code.
+
+```mermaid
+graph LR
+    HCL["Identity-as-Code (HCL)"] --> TF["Terraform Apply"]
+    TF --> Azure["Entra ID App Registration"]
+    Azure --> Live["Live Workload Identity"]
+```
+
+### 11. Metadata Lake for Identity Forensics
+Storing immutable records of credential changes and identity usage for security investigations.
+
+```mermaid
+graph LR
+    Event["Identity Lifecycle Event"] --> Stream["Forensic Stream"]
+    Stream --> Lake["Identity Metadata Lake"]
+    Lake --> Trends["Principal Sprawl Analysis"]
+```
 
 ---
 
 ## 🏛️ Core Identity Pillars
 
-1. **Automated Provisioning Engine**: Centralized hub for creating service principals with standardized naming, tagging, and project isolation.
-2. **Dynamic Credential Rotation**: Automated lifecycle management for client secrets and certificates, reducing the window of opportunity for exposed credentials.
-3. **Least-Privilege Enforcement**: Policy-driven assessment of permissions to ensure service principals only have the access required for their function.
-4. **Identity Risk Scoring**: Continuous evaluation of principal risk based on permission breadth, credential age, and usage patterns.
-5. **Usage & Activity Monitoring**: Real-time tracking of identity usage to detect anomalies and identify stale principals for decommissioning.
-6. **Immutable Governance Audit**: Comprehensive logging of every identity lifecycle event—from creation to retirement—for organizational transparency.
-
----
-
-## 📐 Architecture Storytelling: 50+ Advanced Diagrams
-
-### 1. The Service Principal Lifecycle
-*The flow from provisioning to secure retirement.*
-```mermaid
-graph TD
-    subgraph "Onboarding"
-        Req[Provisioning Request]
-        Policy[Policy Check]
-        Create[Create Principal]
-    end
-
-    subgraph "Active Management"
-        Rotate[Credential Rotation]
-        Monitor[Usage Monitoring]
-        Risk[Risk Assessment]
-    end
-
-    subgraph "Offboarding"
-        Disable[Disable Principal]
-        Revoke[Revoke Credentials]
-        Retire[Archive/Cleanup]
-    end
-
-    Req -->|1. Submit| Policy
-    Policy -->|2. Approve| Create
-    Create -->|3. Activate| Rotate
-    Rotate -->|4. Index| Monitor
-    Monitor -->|5. Analyze| Risk
-    Risk -->|6. Trigger| Disable
-    Disable -->|7. Secure| Revoke
-    Revoke -->|8. Finalize| Retire
-```
-
-### 2. Credential Rotation Logic Topology
-*Visualizing how automated rotation is orchestrated.*
-```mermaid
-graph LR
-    Trigger[Rotation Trigger] --> Vault[Secure Store]
-    Vault --> New[Generate New Secret]
-    New --> Dist[Distribute to App]
-    Dist --> Verify[Verify Success]
-    Verify --> Revoke[Revoke Old Secret]
-```
-
-### 3. Identity Risk Scoring Model
-```mermaid
-graph TD
-    Principal[Identity Metadata] --> Perms[Permission Breadth]
-    Principal --> Age[Credential Age]
-    Principal --> Usage[Last Used Activity]
-    Perms & Age & Usage --> Calc[Risk Engine]
-    Calc --> Score[Risk Score 0-100]
-```
-
-### 4. Identity Hub Architecture
-```mermaid
-graph LR
-    UI[React Web] --> API[FastAPI Gateway]
-    API --> Cache[(Redis Cache)]
-    API --> DB[(Postgres Metadata DB)]
-    API --> Worker[Rotation Workers]
-```
-
-### 5. Deployment Topology: High-Available Identity Hub
-```mermaid
-graph LR
-    LB[Load Balancer] --> API[FastAPI Cluster]
-    API --> Queue[(Redis Task Queue)]
-    Queue --> W[Rotation Engine]
-    W --> Cloud[Cloud IAM APIs]
-```
-
-### 6. Access Validation Flow
-```mermaid
-graph LR
-    Req[Access Request] --> Auth[Identity Check]
-    Auth --> Policy{Least Privilege?}
-    Policy -->|Pass| Success[Access Granted]
-    Policy -->|Fail| Warn[Governance Alert]
-```
-
-### 7. Foundation: Multi-Environment Setup
-```mermaid
-graph LR
-    F[Foun] --> M[Mult]
-```
-
-### 8. Networking: Secure Identity Tunnels
-```mermaid
-graph LR
-    N[Netw] --> S[Secu]
-```
-
-### 9. Component: Provisioning Engine
-```mermaid
-graph LR
-    C[Comp] --> P[Prov]
-```
-
-### 10. Component: Rotation Engine
-```mermaid
-graph LR
-    C[Comp] --> R[Rota]
-```
-
-### 11. Component: Risk Engine
-```mermaid
-graph LR
-    C[Comp] --> R[Risk]
-```
-
-### 12. Component: Decommission Engine
-```mermaid
-graph LR
-    C[Comp] --> D[Deco]
-```
-
-### 13. Logic: Credential Generator
-```mermaid
-graph LR
-    L[Logi] --> C[Cred]
-```
-
-### 14. Logic: Permission Matrix Resolver
-```mermaid
-graph LR
-    L[Logi] --> P[Perm]
-```
-
-### 15. Logic: Risk Weighting Algorithm
-```mermaid
-graph LR
-    L[Logi] --> R[Risk]
-```
-
-### 16. Logic: Audit Event Broker
-```mermaid
-graph LR
-    L[Logi] --> A[Audi]
-```
-
-### 17. Architecture: Global Identity Plane
-```mermaid
-graph LR
-    A[Arch] --> G[Glob]
-```
-
-### 18. Architecture: Event-Driven Lifecycle
-```mermaid
-graph LR
-    A[Arch] --> E[Even]
-```
-
-### 19. Architecture: Multi-Cloud IAM Bridge
-```mermaid
-graph LR
-    A[Arch] --> M[Mult]
-```
-
-### 20. Pattern: Identity-as-Code
-```mermaid
-graph LR
-    P[Patt] --> I[Iden]
-```
-
-### 21. Pattern: Automated Secret Rotation
-```mermaid
-graph LR
-    P[Patt] --> A[Auto]
-```
-
-### 22. Pattern: Zero-Trust Identity
-```mermaid
-graph LR
-    P[Patt] --> Z[Zero]
-```
-
-### 23. Security: Signed Principal Claims
-```mermaid
-graph LR
-    S[Secu] --> S[Sign]
-```
-
-### 24. Security: Least Privilege Enforcement
-```mermaid
-graph LR
-    S[Secu] --> L[Leas]
-```
-
-### 25. Security: Secure Audit Record
-```mermaid
-graph LR
-    S[Secu] --> S[Secu]
-```
-
-### 26. Feature: Principal Usage Heatmap
-```mermaid
-graph LR
-    F[Feat] --> P[Prin]
-```
-
-### 27. Feature: Rotation Health Dashboard
-```mermaid
-graph LR
-    F[Feat] --> R[Rota]
-```
-
-### 28. Feature: Auto-generated Identity Report
-```mermaid
-graph LR
-    F[Feat] --> A[Auto]
-```
-
-### 29. Compliance: SOC2 IAM Controls
-```mermaid
-graph LR
-    C[Comp] --> S[SOC2]
-```
-
-### 30. Compliance: GDPR Data Access Mapping
-```mermaid
-graph LR
-    C[Comp] --> G[GDPR]
-```
-
-### 31. Infrastructure: Redis Rotation Queue
-```mermaid
-graph LR
-    I[Infr] --> R[Redi]
-```
-
-### 32. Infrastructure: Postgres Principal DB
-```mermaid
-graph LR
-    I[Infr] --> P[Post]
-```
-
-### 33. Deployment: Kubernetes Identity Pods
-```mermaid
-graph LR
-    D[Depl] --> K[Kube]
-```
-
-### 34. Deployment: Multi-Region Identity Sync
-```mermaid
-graph LR
-    D[Depl] --> M[Mult]
-```
-
-### 35. Monitoring: Rotation Success Rate KPI
-```mermaid
-graph LR
-    M[Moni] --> R[Rota]
-```
-
-### 36. Monitoring: Principal Sprawl Analytics
-```mermaid
-graph LR
-    M[Moni] --> P[Prin]
-```
-
-### 37. UI: Identity Hub View
-```mermaid
-graph LR
-    U[UI] --> I[Iden]
-```
-
-### 38. UI: Credential Management Pane
-```mermaid
-graph LR
-    U[UI] --> C[Cred]
-```
-
-### 39. UI: Risk Distribution Graph
-```mermaid
-graph LR
-    U[UI] --> R[Risk]
-```
-
-### 40. UI: Governance Workflow Dashboard
-```mermaid
-graph LR
-    U[UI] --> G[Gove]
-```
-
-### 41. CI/CD: Principal config validation
-```mermaid
-graph LR
-    C[CICD] --> P[Prin]
-```
-
-### 42. CI/CD: Rotation test pipeline
-```mermaid
-graph LR
-    C[CICD] --> R[Rota]
-```
-
-### 43. Strategy: Identity Minimization
-```mermaid
-graph LR
-    S[Stra] --> I[Iden]
-```
-
-### 44. Strategy: Automation-First IAM
-```mermaid
-graph LR
-    S[Stra] --> A[Auto]
-```
-
-### 45. Feature: Multi-Cloud Account Factory
-```mermaid
-graph LR
-    F[Feat] --> M[Mult]
-```
-
-### 46. Feature: Stale Principal Detector
-```mermaid
-graph LR
-    F[Feat] --> S[Stal]
-```
-
-### 47. Feature: Governance Scorecard
-```mermaid
-graph LR
-    F[Feat] --> G[Gove]
-```
-
-### 48. Logic: Credential Versioning Solver
-```mermaid
-graph LR
-    L[Logi] --> C[Cred]
-```
-
-### 49. Data Model: Principal Entity
-```mermaid
-graph LR
-    D[Data] --> P[Prin]
-```
-
-### 50. Enterprise Identity Excellence
-```mermaid
-graph LR
-    E[Entr] --> I[Iden]
-```
+1.  **Automated Provisioning Engine**: Centralized hub for creating service principals with standardized naming, tagging, and isolation.
+2.  **Dynamic Credential Rotation**: Automated lifecycle management for client secrets and certificates to reduce exposure windows.
+3.  **Least-Privilege Enforcement**: Policy-driven assessment of permissions to ensure identities only have the required access.
+4.  **Identity Risk Scoring**: Continuous evaluation of principal risk based on permission breadth, age, and usage patterns.
+5.  **Usage & Activity Monitoring**: Real-time tracking of identity usage to detect anomalies and identify stale principals.
+6.  **Immutable Governance Audit**: Comprehensive logging of every identity lifecycle event from creation to retirement.
 
 ---
 
 ## 🛠️ Technical Stack & Implementation
 
 ### Identity Engine & APIs
-- **Framework**: Python 3.11+ / FastAPI.
-- **Provisioning Engine**: Standardized creation logic with metadata enforcement.
-- **Credential Manager**: Simulated secret generation and versioned management.
-- **Rotation Engine**: Time-based worker for automated credential refresh.
-- **Risk Engine**: Multi-factor scoring model for identity audit.
-- **Cache**: Redis for high-speed identity indexing and rotation task queuing.
-- **Persistence**: PostgreSQL for principal metadata, credential histories, and audit trails.
-- **Identity**: OIDC / JWT with RBAC for granular lifecycle management access.
+*   **Framework**: Python 3.11+ / FastAPI.
+*   **Provisioning Engine**: Standardized creation logic for Entra ID (Azure AD) and AWS IAM.
+*   **Rotation Engine**: Multi-threaded workers for secret and certificate lifecycle management.
+*   **Risk Engine**: Strategic scoring model for identifying high-risk or stale identities.
+*   **State Management**: PostgreSQL (Metadata) and Redis (Rotation Task Cache).
 
-### Frontend (Identity Dashboard)
-- **Framework**: React 18 / Vite.
-- **Theme**: Sky / Slate (Modern Cloud Security & Identity aesthetic).
-- **Visualization**: Recharts for lifecycle velocity and risk distribution graphs.
+### Identity Dashboard (UI)
+*   **Framework**: React 18 / Vite.
+*   **Theme**: Sky / Slate (Modern Cloud Security & Identity aesthetic).
+*   **Visualization**: Recharts for lifecycle velocity and risk distribution graphs.
 
-### Infrastructure
-- **Runtime**: AWS EKS (Kubernetes).
-- **Deployment**: Helm charts for engine clusters and rotation workers.
-- **IaC**: Terraform (Modular with Identity focus).
+### Infrastructure & DevOps
+*   **Runtime**: AWS EKS or Azure Kubernetes Service (AKS).
+*   **IaC**: Modular Terraform for deploying the identity hub and lifecycle workers.
+
+---
+
+## 🏗️ IaC Mapping (Module Structure)
+
+| Module | Purpose | Real Services |
+| :--- | :--- | :--- |
+| **`infrastructure/governance`** | Central management plane | EKS, PostgreSQL, Redis |
+| **`infrastructure/identities`** | Cloud-native identity connectors | Entra ID, AWS IAM, GCP IAM |
+| **`infrastructure/secrets`** | Credential rotation and storage | Key Vault, KMS, HashiCorp Vault |
+| **`infrastructure/auditing`** | Forensic logging and monitoring | Log Analytics, CloudWatch |
 
 ---
 
 ## 🚀 Deployment Guide
 
-### Local Development
+### Local Principal Environment
 ```bash
-# Clone the repository
+# Clone the identity platform
 git clone https://github.com/devopstrio/service-principal-lifecycle.git
 cd service-principal-lifecycle
 
-# Setup environment
+# Configure environment
 cp .env.example .env
 
-# Launch the Identity stack (API, Workers, DB, Redis, UI)
+# Launch the Identity stack
 make up
 
-# Run a sample identity lifecycle simulation
+# Run an automated credential rotation simulation
 make rotate-credentials
 
 # Run an identity risk audit
 make audit-principals
 ```
+
 Access the Service Principal Hub at `http://localhost:3000`.
 
 ---
 
 ## 📜 License
 Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+<div align="center">
+  <p>© 2026 Devopstrio. All rights reserved.</p>
+</div>
